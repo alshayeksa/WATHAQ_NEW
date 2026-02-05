@@ -4,12 +4,7 @@
   "compatibility_date": "2026-02-05",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "NODE_ENV": "production",
-    "SUPABASE_URL": "",
-    "SUPABASE_ANON_KEY": "",
-    "SUPABASE_SERVICE_ROLE_KEY": "",
-    "GOOGLE_CLIENT_ID": "",
-    "GOOGLE_CLIENT_SECRET": ""
+    "NODE_ENV": "production"
   },
   "upload_source_maps": true
 }
