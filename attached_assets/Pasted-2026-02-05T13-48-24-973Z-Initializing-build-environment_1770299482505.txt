@@ -1,0 +1,116 @@
+2026-02-05T13:48:24.973Z	Initializing build environment...
+2026-02-05T13:48:26.554Z	Success: Finished initializing build environment
+2026-02-05T13:48:27.100Z	Cloning repository...
+2026-02-05T13:48:28.640Z	Restoring from dependencies cache
+2026-02-05T13:48:28.642Z	Restoring from build output cache
+2026-02-05T13:48:28.650Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2026-02-05T13:48:28.795Z	Installing project dependencies: npm clean-install --progress=false
+2026-02-05T13:48:40.382Z	
+2026-02-05T13:48:40.384Z	added 552 packages, and audited 553 packages in 11s
+2026-02-05T13:48:40.385Z	
+2026-02-05T13:48:40.386Z	80 packages are looking for funding
+2026-02-05T13:48:40.386Z	  run `npm fund` for details
+2026-02-05T13:48:40.386Z	
+2026-02-05T13:48:40.386Z	1 moderate severity vulnerability
+2026-02-05T13:48:40.386Z	
+2026-02-05T13:48:40.387Z	To address all issues, run:
+2026-02-05T13:48:40.387Z	  npm audit fix
+2026-02-05T13:48:40.387Z	
+2026-02-05T13:48:40.387Z	Run `npm audit` for details.
+2026-02-05T13:48:40.611Z	Executing user build command: npm run build
+2026-02-05T13:48:40.861Z	
+2026-02-05T13:48:40.862Z	> rest-express@1.0.0 build
+2026-02-05T13:48:40.862Z	> tsx script/build.ts
+2026-02-05T13:48:40.862Z	
+2026-02-05T13:48:43.346Z	building client...
+2026-02-05T13:48:43.436Z	vite v7.3.0 building client environment for production...
+2026-02-05T13:48:43.973Z	transforming...
+2026-02-05T13:48:45.385Z	
+2026-02-05T13:48:45.385Z	A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+2026-02-05T13:48:49.332Z	✓ 1849 modules transformed.
+2026-02-05T13:48:49.923Z	rendering chunks...
+2026-02-05T13:48:49.939Z	computing gzip size...
+2026-02-05T13:48:49.969Z	../dist/public/index.html                      2.72 kB │ gzip:   1.09 kB
+2026-02-05T13:48:49.969Z	../dist/public/assets/moe_logo-CVi-7ym_.png  290.13 kB
+2026-02-05T13:48:49.969Z	../dist/public/assets/logo-i40N7oQv.png      354.56 kB
+2026-02-05T13:48:49.969Z	../dist/public/assets/index-Cg27ihR4.css      75.85 kB │ gzip:  12.53 kB
+2026-02-05T13:48:49.969Z	../dist/public/assets/index-DezpqoLY.js      780.24 kB │ gzip: 230.53 kB
+2026-02-05T13:48:49.969Z	
+2026-02-05T13:48:49.969Z	(!) Some chunks are larger than 500 kB after minification. Consider:
+2026-02-05T13:48:49.969Z	- Using dynamic import() to code-split the application
+2026-02-05T13:48:49.969Z	- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2026-02-05T13:48:49.969Z	- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+2026-02-05T13:48:49.970Z	✓ built in 6.31s
+2026-02-05T13:48:49.970Z	building server...
+2026-02-05T13:48:50.092Z	
+2026-02-05T13:48:50.093Z	  dist/index.cjs  859.1kb
+2026-02-05T13:48:50.093Z	
+2026-02-05T13:48:50.093Z	⚡ Done in 108ms
+2026-02-05T13:48:50.190Z	Success: Build command completed
+2026-02-05T13:48:50.360Z	Executing user deploy command: npx wrangler deploy
+2026-02-05T13:48:51.817Z	npm warn exec The following package was not found and will be installed: wrangler@4.63.0
+2026-02-05T13:49:01.931Z	
+2026-02-05T13:49:01.931Z	 ⛅️ wrangler 4.63.0
+2026-02-05T13:49:01.931Z	───────────────────
+2026-02-05T13:49:02.040Z	▲ [WARNING] Failed to match Worker name. Your config file is using the Worker name "wathag", but the CI system expected "wathaq". Overriding using the CI provided Worker name. Workers Builds connected builds will attempt to open a pull request to resolve this config name mismatch.
+2026-02-05T13:49:02.040Z	
+2026-02-05T13:49:02.041Z	
+2026-02-05T13:49:03.963Z	▲ [WARNING] The local configuration being used (generated from your local configuration file) differs from the remote configuration of your Worker set via the Cloudflare Dashboard:
+2026-02-05T13:49:03.963Z	
+2026-02-05T13:49:03.963Z	   {
+2026-02-05T13:49:03.963Z	  -  name: "wathaq"
+2026-02-05T13:49:03.965Z	  +  name: "wathag"
+2026-02-05T13:49:03.965Z	  -  workers_dev: false
+2026-02-05T13:49:03.966Z	  +  workers_dev: true
+2026-02-05T13:49:03.966Z	  -  preview_urls: false
+2026-02-05T13:49:03.966Z	  +  preview_urls: true
+2026-02-05T13:49:03.966Z	     vars: {
+2026-02-05T13:49:03.966Z	  +    NODE_ENV: "production"
+2026-02-05T13:49:03.966Z	  -    SUPABASE_URL: "https://ltfmrqzwvcqxaqmlvzia.supabase.co"
+2026-02-05T13:49:03.966Z	  +    SUPABASE_URL: "REPLACE_WITH_SUPABASE_URL"
+2026-02-05T13:49:03.966Z	  -    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0Zm1ycXp3dmNxeGFxbWx2emlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0MTk5OTYsImV4cCI6MjA4NDk5NTk5Nn0.dfR0qv8Ar01dN3yPIec0KCS9voFzE1v_s4_SktzOrrw"
+2026-02-05T13:49:03.966Z	  +    SUPABASE_ANON_KEY: "REPLACE_WITH_SUPABASE_ANON_KEY"
+2026-02-05T13:49:03.966Z	  -    GOOGLE_CLIENT_ID: "1006766576941-ptc7nrh96ccttf066g7lvasokahqgbes.apps.googleusercontent.com"
+2026-02-05T13:49:03.966Z	  +    GOOGLE_CLIENT_ID: "REPLACE_WITH_GOOGLE_CLIENT_ID"
+2026-02-05T13:49:03.966Z	  -    GOOGLE_CLIENT_SECRET: "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"
+2026-02-05T13:49:03.966Z	  +    GOOGLE_CLIENT_SECRET: "REPLACE_WITH_GOOGLE_CLIENT_SECRET"
+2026-02-05T13:49:03.966Z	  -    SUPABASE_SERVICE_ROLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0Zm1ycXp3dmNxeGFxbWx2emlhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2OTQxOTk5NiwiZXhwIjoyMDg0OTk1OTk2fQ.dcAgidhRjY8BdtLLhIlYwJTXzNnCZhlK0sfcLK0RI28"
+2026-02-05T13:49:03.968Z	  +    SUPABASE_SERVICE_ROLE_KEY: "REPLACE_WITH_SUPABASE_SERVICE_ROLE_KEY"
+2026-02-05T13:49:03.968Z	     }
+2026-02-05T13:49:03.968Z	   }
+2026-02-05T13:49:03.968Z	  
+2026-02-05T13:49:03.968Z	  
+2026-02-05T13:49:03.968Z	  Deploying the Worker will override the remote configuration with your local one.
+2026-02-05T13:49:03.968Z	
+2026-02-05T13:49:03.968Z	
+2026-02-05T13:49:03.968Z	? Would you like to continue?
+2026-02-05T13:49:03.969Z	🤖 Using fallback value in non-interactive context: yes
+2026-02-05T13:49:04.692Z	Total Upload: 583.94 KiB / gzip: 115.04 KiB
+2026-02-05T13:49:06.108Z	Your Worker has access to the following bindings:
+2026-02-05T13:49:06.108Z	Binding                                                                       Resource                  
+2026-02-05T13:49:06.108Z	env.NODE_ENV ("production")                                                   Environment Variable      
+2026-02-05T13:49:06.109Z	env.SUPABASE_URL ("REPLACE_WITH_SUPABASE_URL")                                Environment Variable      
+2026-02-05T13:49:06.109Z	env.SUPABASE_ANON_KEY ("REPLACE_WITH_SUPABASE_ANON_KEY")                      Environment Variable      
+2026-02-05T13:49:06.109Z	env.GOOGLE_CLIENT_ID ("REPLACE_WITH_GOOGLE_CLIENT_ID")                        Environment Variable      
+2026-02-05T13:49:06.109Z	env.GOOGLE_CLIENT_SECRET ("REPLACE_WITH_GOOGLE_CLIENT_SECRET")                Environment Variable      
+2026-02-05T13:49:06.109Z	env.SUPABASE_SERVICE_ROLE_KEY ("REPLACE_WITH_SUPABASE_SERVICE_ROLE_KEY")      Environment Variable      
+2026-02-05T13:49:06.109Z	
+2026-02-05T13:49:06.167Z	
+2026-02-05T13:49:06.168Z	Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+2026-02-05T13:49:06.170Z	
+2026-02-05T13:49:06.172Z	✘ [ERROR] A request to the Cloudflare API (/accounts/df48308e0348751b70b2ff4aae28a833/workers/scripts/wathaq/versions) failed.
+2026-02-05T13:49:06.172Z	
+2026-02-05T13:49:06.172Z	  Uncaught Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+2026-02-05T13:49:06.172Z	    at null.<anonymous> (file:///opt/buildhome/repo/node_modules/@supabase/supabase-js/src/lib/helpers.ts:90:11) in validateSupabaseUrl
+2026-02-05T13:49:06.172Z	    at null.<anonymous> (file:///opt/buildhome/repo/node_modules/@supabase/supabase-js/src/SupabaseClient.ts:117:21) in SupabaseClient
+2026-02-05T13:49:06.173Z	    at null.<anonymous> (file:///opt/buildhome/repo/node_modules/@supabase/supabase-js/src/index.ts:60:10) in createClient
+2026-02-05T13:49:06.173Z	    at null.<anonymous> (file:///opt/buildhome/repo/server/repositories/supabase-repository.ts:71:18)
+2026-02-05T13:49:06.173Z	   [code: 10021]
+2026-02-05T13:49:06.173Z	  To learn more about this error, visit: https://developers.cloudflare.com/workers/observability/errors/#validation-errors-10021
+2026-02-05T13:49:06.173Z	
+2026-02-05T13:49:06.174Z	  
+2026-02-05T13:49:06.174Z	  If you think this is a bug, please open an issue at: https://github.com/cloudflare/workers-sdk/issues/new/choose
+2026-02-05T13:49:06.174Z	
+2026-02-05T13:49:06.174Z	
+2026-02-05T13:49:06.192Z	🪵  Logs were written to "/opt/buildhome/.config/.wrangler/logs/wrangler-2026-02-05_13-49-01_449.log"
+2026-02-05T13:49:06.269Z	Failed: error occurred while running deploy command
