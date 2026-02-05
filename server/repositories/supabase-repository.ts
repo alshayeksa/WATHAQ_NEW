@@ -49,39 +49,51 @@ function decryptToken(encryptedToken: string): string {
   return decrypted;
 }
 
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+// Lazy initialization for Cloudflare Workers compatibility
+// In Workers, env vars are passed per-request, not via process.env
+let supabase: SupabaseClient | null = null;
+let initialized = false;
 
-// Validate required environment variables
-if (!supabaseUrl) {
-  throw new Error("SUPABASE_URL is required but not set!");
-}
-if (!supabaseServiceKey) {
-  throw new Error("SUPABASE_SERVICE_ROLE_KEY is required but not set! Backend cannot function without service role access.");
-}
-
-// Log which key type we're using (for debugging RLS issues)
-console.log("Supabase client initialized with:", {
-  url: "SET",
-  keyType: "SERVICE_ROLE",
-  keyPrefix: supabaseServiceKey.substring(0, 20) + "..."
-});
-
-// Create a direct client using Service Role Key which BYPASSES RLS via auth.role() = 'service_role'
-const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    persistSession: false,
-    autoRefreshToken: false,
-    detectSessionInUrl: false
+function getSupabaseClient(): SupabaseClient {
+  if (supabase && initialized) {
+    return supabase;
   }
-});
+
+  // Try to get from process.env first (Node.js), then from globalThis (Workers)
+  const supabaseUrl = process.env.SUPABASE_URL || (globalThis as any).SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || (globalThis as any).SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl) {
+    throw new Error("SUPABASE_URL is required but not set!");
+  }
+  if (!supabaseServiceKey) {
+    throw new Error("SUPABASE_SERVICE_ROLE_KEY is required but not set!");
+  }
+
+  console.log("Supabase client initialized with:", {
+    url: "SET",
+    keyType: "SERVICE_ROLE",
+    keyPrefix: supabaseServiceKey.substring(0, 20) + "..."
+  });
+
+  supabase = createClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false
+    }
+  });
+  
+  initialized = true;
+  return supabase;
+}
 
 // ============================================
 // Profiles Repository
 // ============================================
 export const profilesRepository = {
   async getById(userId: string): Promise<Profile | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('profiles')
       .select('id, full_name, email, avatar_url, region, city, school_name, specialization, job_title, created_at, updated_at')
       .eq('id', userId)
@@ -100,7 +112,7 @@ export const profilesRepository = {
       throw new Error("Missing required fields for profile upsert");
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('profiles')
       .upsert({
         id: profile.id,
@@ -129,7 +141,7 @@ export const profilesRepository = {
   },
 
   async update(userId: string, updates: Partial<Profile>): Promise<Profile | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('profiles')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', userId)
@@ -146,7 +158,7 @@ export const profilesRepository = {
 // ============================================
 export const driveConnectionsRepository = {
   async getByUserId(userId: string, provider: string = 'google'): Promise<DriveConnection | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('drive_connections')
       .select('id, user_id, provider, provider_user_id, scopes, last_synced_at, created_at, updated_at')
       .eq('user_id', userId)
@@ -158,7 +170,7 @@ export const driveConnectionsRepository = {
   },
 
   async upsert(connection: InsertDriveConnection & { refresh_token_encrypted: string }): Promise<DriveConnection | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('drive_connections')
       .upsert(connection, { onConflict: 'user_id,provider' })
       .select('id, user_id, provider, provider_user_id, scopes, last_synced_at, created_at, updated_at')
@@ -169,7 +181,7 @@ export const driveConnectionsRepository = {
   },
 
   async updateLastSynced(userId: string, provider: string = 'google'): Promise<void> {
-    await supabase
+    await getSupabaseClient()
       .from('drive_connections')
       .update({ last_synced_at: new Date().toISOString() })
       .eq('user_id', userId)
@@ -177,7 +189,7 @@ export const driveConnectionsRepository = {
   },
 
   async delete(userId: string, provider: string = 'google'): Promise<void> {
-    await supabase
+    await getSupabaseClient()
       .from('drive_connections')
       .delete()
       .eq('user_id', userId)
@@ -190,7 +202,7 @@ export const driveConnectionsRepository = {
     const tokensJson = JSON.stringify({ accessToken, refreshToken });
     const encryptedTokens = encryptToken(tokensJson);
     
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('drive_connections')
       .upsert({
         user_id: userId,
@@ -215,7 +227,7 @@ export const driveConnectionsRepository = {
 
   // Get both tokens (decrypted)
   async getTokens(userId: string, provider: string = 'google'): Promise<{ accessToken: string; refreshToken?: string } | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('drive_connections')
       .select('refresh_token_encrypted')
       .eq('user_id', userId)
@@ -251,7 +263,7 @@ export const projectsRepository = {
   async getAll(filters: ProjectFilters): Promise<Project[]> {
     console.log("Supabase projectsRepository.getAll called with filters:", filters);
     try {
-      let query = supabase
+      let query = getSupabaseClient()
         .from('projects')
         .select('*')
         .eq('user_id', filters.user_id)
@@ -281,7 +293,7 @@ export const projectsRepository = {
   },
 
   async getById(id: string, userId: string): Promise<Project | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('projects')
       .select('*')
       .eq('id', id)
@@ -293,7 +305,7 @@ export const projectsRepository = {
   },
 
   async getByIdWithoutUser(id: string): Promise<Project | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('projects')
       .select('*')
       .eq('id', id)
@@ -308,9 +320,9 @@ export const projectsRepository = {
     if (!project) return null;
 
     const [foldersResult, filesResult, shareLinkResult] = await Promise.all([
-      supabase.from('folders').select('*').eq('project_id', id).eq('is_deleted', false).order('sort_order'),
-      supabase.from('files_metadata').select('*').eq('project_id', id).eq('is_deleted', false),
-      supabase.from('share_links').select('*').eq('project_id', id).single(),
+      getSupabaseClient().from('folders').select('*').eq('project_id', id).eq('is_deleted', false).order('sort_order'),
+      getSupabaseClient().from('files_metadata').select('*').eq('project_id', id).eq('is_deleted', false),
+      getSupabaseClient().from('share_links').select('*').eq('project_id', id).single(),
     ]);
 
     return {
@@ -322,7 +334,7 @@ export const projectsRepository = {
   },
 
   async create(project: InsertProject & { root_drive_id?: string }): Promise<Project> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('projects')
       .insert({
         ...project,
@@ -337,7 +349,7 @@ export const projectsRepository = {
   },
 
   async update(id: string, userId: string, updates: UpdateProject): Promise<Project | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('projects')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
@@ -350,7 +362,7 @@ export const projectsRepository = {
   },
 
   async updateWithoutUser(id: string, updates: UpdateProject): Promise<Project | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('projects')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
@@ -362,7 +374,7 @@ export const projectsRepository = {
   },
 
   async delete(id: string, userId: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('projects')
       .delete()
       .eq('id', id)
@@ -372,7 +384,7 @@ export const projectsRepository = {
   },
 
   async deleteWithoutUser(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('projects')
       .delete()
       .eq('id', id);
@@ -385,7 +397,7 @@ export const projectsRepository = {
   },
 
   async softDelete(id: string, userId: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('projects')
       .update({ 
         is_deleted: true, 
@@ -399,7 +411,7 @@ export const projectsRepository = {
   },
 
   async restore(id: string, userId: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('projects')
       .update({ 
         is_deleted: false, 
@@ -413,7 +425,7 @@ export const projectsRepository = {
   },
 
   async hardDelete(id: string, userId: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('projects')
       .delete()
       .eq('id', id)
@@ -428,7 +440,7 @@ export const projectsRepository = {
 // ============================================
 export const foldersRepository = {
   async getAll(filters: FolderFilters): Promise<Folder[]> {
-    let query = supabase
+    let query = getSupabaseClient()
       .from('folders')
       .select('*')
       .eq('project_id', filters.project_id)
@@ -454,7 +466,7 @@ export const foldersRepository = {
   },
 
   async getById(id: string): Promise<Folder | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('folders')
       .select('*')
       .eq('id', id)
@@ -465,7 +477,7 @@ export const foldersRepository = {
   },
 
   async getByDriveFolderId(driveFolderId: string): Promise<Folder | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('folders')
       .select('*')
       .eq('drive_folder_id', driveFolderId)
@@ -476,7 +488,7 @@ export const foldersRepository = {
   },
 
   async create(folder: InsertFolder & { drive_folder_id: string }): Promise<Folder> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('folders')
       .insert(folder)
       .select('*')
@@ -487,7 +499,7 @@ export const foldersRepository = {
   },
 
   async update(id: string, updates: UpdateFolder): Promise<Folder | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('folders')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
@@ -499,7 +511,7 @@ export const foldersRepository = {
   },
 
   async delete(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('folders')
       .delete()
       .eq('id', id);
@@ -508,7 +520,7 @@ export const foldersRepository = {
   },
 
   async softDelete(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('folders')
       .update({ 
         is_deleted: true, 
@@ -521,7 +533,7 @@ export const foldersRepository = {
   },
 
   async restore(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('folders')
       .update({ 
         is_deleted: false, 
@@ -534,7 +546,7 @@ export const foldersRepository = {
   },
 
   async hardDelete(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('folders')
       .delete()
       .eq('id', id);
@@ -543,7 +555,7 @@ export const foldersRepository = {
   },
 
   async getNextSortOrder(projectId: string, parentId: string | null): Promise<number> {
-    let query = supabase
+    let query = getSupabaseClient()
       .from('folders')
       .select('sort_order')
       .eq('project_id', projectId)
@@ -566,7 +578,7 @@ export const foldersRepository = {
 // ============================================
 export const filesMetadataRepository = {
   async getAll(filters: FileFilters): Promise<FileMetadata[]> {
-    let query = supabase
+    let query = getSupabaseClient()
       .from('files_metadata')
       .select('*')
       .order('created_at', { ascending: false });
@@ -589,7 +601,7 @@ export const filesMetadataRepository = {
   },
 
   async getById(id: string): Promise<FileMetadata | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('files_metadata')
       .select('*')
       .eq('id', id)
@@ -600,7 +612,7 @@ export const filesMetadataRepository = {
   },
 
   async getByDriveFileId(driveFileId: string): Promise<FileMetadata | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('files_metadata')
       .select('*')
       .eq('drive_file_id', driveFileId)
@@ -611,7 +623,7 @@ export const filesMetadataRepository = {
   },
 
   async create(file: InsertFileMetadata): Promise<FileMetadata> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('files_metadata')
       .insert(file)
       .select('*')
@@ -622,7 +634,7 @@ export const filesMetadataRepository = {
   },
 
   async update(id: string, updates: UpdateFileMetadata): Promise<FileMetadata | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('files_metadata')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', id)
@@ -634,7 +646,7 @@ export const filesMetadataRepository = {
   },
 
   async softDelete(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('files_metadata')
       .update({ 
         is_deleted: true, 
@@ -647,7 +659,7 @@ export const filesMetadataRepository = {
   },
 
   async hardDelete(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('files_metadata')
       .delete()
       .eq('id', id);
@@ -656,7 +668,7 @@ export const filesMetadataRepository = {
   },
 
   async restore(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('files_metadata')
       .update({ 
         is_deleted: false, 
@@ -669,7 +681,7 @@ export const filesMetadataRepository = {
   },
 
   async createMany(files: InsertFileMetadata[]): Promise<FileMetadata[]> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('files_metadata')
       .insert(files)
       .select('*');
@@ -685,7 +697,7 @@ export const filesMetadataRepository = {
 export const shareLinksRepository = {
   async getByProjectId(projectId: string): Promise<ShareLink | null> {
     console.log("ShareLinks.getByProjectId called with:", projectId);
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('share_links')
       .select('*')
       .eq('project_id', projectId)
@@ -703,7 +715,7 @@ export const shareLinksRepository = {
   },
 
   async getBySlug(slug: string): Promise<ShareLink | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('share_links')
       .select('*')
       .eq('slug', slug)
@@ -732,7 +744,7 @@ export const shareLinksRepository = {
       insertData.pin_hash = crypto.createHash('sha256').update(shareLink.pin).digest('hex');
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('share_links')
       .insert(insertData)
       .select('*')
@@ -754,7 +766,7 @@ export const shareLinksRepository = {
       delete updateData.pin;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('share_links')
       .update(updateData)
       .eq('id', id)
@@ -770,7 +782,7 @@ export const shareLinksRepository = {
   },
 
   async delete(id: string): Promise<boolean> {
-    const { error } = await supabase
+    const { error } = await getSupabaseClient()
       .from('share_links')
       .delete()
       .eq('id', id);
@@ -796,7 +808,7 @@ export const shareLinksRepository = {
 // ============================================
 export const auditLogsRepository = {
   async create(log: InsertAuditLog): Promise<AuditLog> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('audit_logs')
       .insert(log)
       .select('*')
@@ -807,7 +819,7 @@ export const auditLogsRepository = {
   },
 
   async getByUserId(userId: string, limit: number = 50): Promise<AuditLog[]> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('audit_logs')
       .select('*')
       .eq('user_id', userId)
@@ -819,7 +831,7 @@ export const auditLogsRepository = {
   },
 
   async getByProjectId(projectId: string, limit: number = 50): Promise<AuditLog[]> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from('audit_logs')
       .select('*')
       .eq('project_id', projectId)
@@ -851,7 +863,7 @@ export const publicViewRepository = {
     const shareLink = await shareLinksRepository.getBySlug(slug);
     if (!shareLink) return null;
 
-    const { data: project, error: projectError } = await supabase
+    const { data: project, error: projectError } = await getSupabaseClient()
       .from('projects')
       .select('*')
       .eq('id', shareLink.project_id)
@@ -860,9 +872,9 @@ export const publicViewRepository = {
     if (projectError || !project) return null;
 
     const [foldersResult, filesResult, profileResult] = await Promise.all([
-      supabase.from('folders').select('*').eq('project_id', project.id).eq('is_deleted', false).order('sort_order'),
-      supabase.from('files_metadata').select('*').eq('project_id', project.id).eq('is_deleted', false),
-      supabase.from('profiles').select('full_name, school_name, specialization, job_title, city, region').eq('id', project.user_id).single(),
+      getSupabaseClient().from('folders').select('*').eq('project_id', project.id).eq('is_deleted', false).order('sort_order'),
+      getSupabaseClient().from('files_metadata').select('*').eq('project_id', project.id).eq('is_deleted', false),
+      getSupabaseClient().from('profiles').select('full_name, school_name, specialization, job_title, city, region').eq('id', project.user_id).single(),
     ]);
 
     return {
