@@ -1,5 +1,5 @@
 {
-  "name": "wathag",
+  "name": "wathaq",
   "main": "server/worker.ts",
   "compatibility_date": "2026-02-05",
   "compatibility_flags": ["nodejs_compat"],
