@@ -1,0 +1,103 @@
+2026-02-05T12:52:36.893Z	Initializing build environment...
+2026-02-05T12:52:38.466Z	Success: Finished initializing build environment
+2026-02-05T12:52:38.804Z	Cloning repository...
+2026-02-05T12:52:40.840Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2026-02-05T12:52:40.842Z	Restoring from dependencies cache
+2026-02-05T12:52:40.844Z	Restoring from build output cache
+2026-02-05T12:52:40.998Z	Installing project dependencies: npm clean-install --progress=false
+2026-02-05T12:52:51.133Z	
+2026-02-05T12:52:51.133Z	added 552 packages, and audited 553 packages in 10s
+2026-02-05T12:52:51.133Z	
+2026-02-05T12:52:51.133Z	80 packages are looking for funding
+2026-02-05T12:52:51.134Z	  run `npm fund` for details
+2026-02-05T12:52:51.135Z	
+2026-02-05T12:52:51.136Z	1 moderate severity vulnerability
+2026-02-05T12:52:51.136Z	
+2026-02-05T12:52:51.136Z	To address all issues, run:
+2026-02-05T12:52:51.136Z	  npm audit fix
+2026-02-05T12:52:51.136Z	
+2026-02-05T12:52:51.137Z	Run `npm audit` for details.
+2026-02-05T12:52:51.301Z	Executing user build command: npm run build
+2026-02-05T12:52:51.557Z	
+2026-02-05T12:52:51.557Z	> rest-express@1.0.0 build
+2026-02-05T12:52:51.557Z	> tsx script/build.ts
+2026-02-05T12:52:51.557Z	
+2026-02-05T12:52:52.926Z	building client...
+2026-02-05T12:52:53.032Z	vite v7.3.0 building client environment for production...
+2026-02-05T12:52:53.909Z	transforming...
+2026-02-05T12:52:55.604Z	
+2026-02-05T12:52:55.604Z	A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+2026-02-05T12:52:59.176Z	✓ 1849 modules transformed.
+2026-02-05T12:52:59.958Z	rendering chunks...
+2026-02-05T12:52:59.974Z	computing gzip size...
+2026-02-05T12:53:02.974Z	../dist/public/index.html                      2.72 kB │ gzip:   1.09 kB
+2026-02-05T12:53:02.974Z	../dist/public/assets/moe_logo-CVi-7ym_.png  290.13 kB
+2026-02-05T12:53:02.974Z	../dist/public/assets/logo-i40N7oQv.png      354.56 kB
+2026-02-05T12:53:02.974Z	../dist/public/assets/index-Cg27ihR4.css      75.85 kB │ gzip:  12.53 kB
+2026-02-05T12:53:02.974Z	../dist/public/assets/index--nS1I6c6.js      780.41 kB │ gzip: 230.70 kB
+2026-02-05T12:53:02.975Z	
+2026-02-05T12:53:02.975Z	(!) Some chunks are larger than 500 kB after minification. Consider:
+2026-02-05T12:53:02.975Z	- Using dynamic import() to code-split the application
+2026-02-05T12:53:02.975Z	- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2026-02-05T12:53:02.975Z	- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+2026-02-05T12:53:02.975Z	✓ built in 9.65s
+2026-02-05T12:53:02.975Z	building server...
+2026-02-05T12:53:03.116Z	
+2026-02-05T12:53:03.122Z	  dist/index.cjs  859.1kb
+2026-02-05T12:53:03.122Z	
+2026-02-05T12:53:03.123Z	⚡ Done in 124ms
+2026-02-05T12:53:03.241Z	Success: Build command completed
+2026-02-05T12:53:03.364Z	Executing user deploy command: npx wrangler deploy
+2026-02-05T12:53:04.721Z	npm warn exec The following package was not found and will be installed: wrangler@4.63.0
+2026-02-05T12:53:25.078Z	
+2026-02-05T12:53:25.078Z	 ⛅️ wrangler 4.63.0
+2026-02-05T12:53:25.078Z	───────────────────
+2026-02-05T12:53:25.174Z	▲ [WARNING] Failed to match Worker name. Your config file is using the Worker name "waththaq-api", but the CI system expected "wathag". Overriding using the CI provided Worker name. Workers Builds connected builds will attempt to open a pull request to resolve this config name mismatch.
+2026-02-05T12:53:25.174Z	
+2026-02-05T12:53:25.174Z	
+2026-02-05T12:53:27.974Z	▲ [WARNING] The local configuration being used (generated from your local configuration file) differs from the remote configuration of your Worker set via the Cloudflare Dashboard:
+2026-02-05T12:53:27.974Z	
+2026-02-05T12:53:27.974Z	   {
+2026-02-05T12:53:27.974Z	  -  compatibility_date: "2026-02-05"
+2026-02-05T12:53:27.974Z	  +  compatibility_date: "2026-01-28"
+2026-02-05T12:53:27.974Z	  -  name: "wathag"
+2026-02-05T12:53:27.974Z	  +  name: "waththaq-api"
+2026-02-05T12:53:27.974Z	  -  workers_dev: false
+2026-02-05T12:53:27.975Z	  +  workers_dev: true
+2026-02-05T12:53:27.975Z	  -  preview_urls: false
+2026-02-05T12:53:27.975Z	  +  preview_urls: true
+2026-02-05T12:53:27.975Z	     vars: {
+2026-02-05T12:53:27.975Z	  -    GOOGLE_CLIENT_ID: "1006766576941-ptc7nrh96ccttf066g7lvasokahqgbes.apps.googleusercontent.com"
+2026-02-05T12:53:27.975Z	  -    GOOGLE_CLIENT_SECRET: "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"
+2026-02-05T12:53:27.975Z	  -    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0Zm1ycXp3dmNxeGFxbWx2emlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0MTk5OTYsImV4cCI6MjA4NDk5NTk5Nn0.dfR0qv8Ar01dN3yPIec0KCS9voFzE1v_s4_SktzOrrw\n"
+2026-02-05T12:53:27.975Z	  -    SUPABASE_URL: "https://ltfmrqzwvcqxaqmlvzia.supabase.co"
+2026-02-05T12:53:27.980Z	     }
+2026-02-05T12:53:27.980Z	   }
+2026-02-05T12:53:27.980Z	  
+2026-02-05T12:53:27.981Z	  
+2026-02-05T12:53:27.981Z	  Deploying the Worker will override the remote configuration with your local one.
+2026-02-05T12:53:27.981Z	
+2026-02-05T12:53:27.981Z	
+2026-02-05T12:53:27.981Z	? Would you like to continue?
+2026-02-05T12:53:27.981Z	🤖 Using fallback value in non-interactive context: yes
+2026-02-05T12:53:28.706Z	Total Upload: 583.94 KiB / gzip: 115.04 KiB
+2026-02-05T12:53:29.926Z	Your Worker has access to the following bindings:
+2026-02-05T12:53:29.926Z	Binding                          Resource                  
+2026-02-05T12:53:29.926Z	env.NODE_ENV ("production")      Environment Variable      
+2026-02-05T12:53:29.926Z	
+2026-02-05T12:53:29.958Z	
+2026-02-05T12:53:29.959Z	Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+2026-02-05T12:53:29.960Z	
+2026-02-05T12:53:29.961Z	✘ [ERROR] A request to the Cloudflare API (/accounts/df48308e0348751b70b2ff4aae28a833/workers/scripts/wathag/versions) failed.
+2026-02-05T12:53:29.962Z	
+2026-02-05T12:53:29.962Z	  Uncaught Error: SUPABASE_URL is required but not set!
+2026-02-05T12:53:29.962Z	    at null.<anonymous> (file:///opt/buildhome/repo/server/repositories/supabase-repository.ts:57:9)
+2026-02-05T12:53:29.962Z	   [code: 10021]
+2026-02-05T12:53:29.962Z	  To learn more about this error, visit: https://developers.cloudflare.com/workers/observability/errors/#validation-errors-10021
+2026-02-05T12:53:29.962Z	
+2026-02-05T12:53:29.962Z	  
+2026-02-05T12:53:29.963Z	  If you think this is a bug, please open an issue at: https://github.com/cloudflare/workers-sdk/issues/new/choose
+2026-02-05T12:53:29.963Z	
+2026-02-05T12:53:29.963Z	
+2026-02-05T12:53:29.995Z	🪵  Logs were written to "/opt/buildhome/.config/.wrangler/logs/wrangler-2026-02-05_12-53-24_533.log"
+2026-02-05T12:53:35.342Z	Failed: error occurred while running deploy command

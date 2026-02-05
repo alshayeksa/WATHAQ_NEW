@@ -1,0 +1,141 @@
+🔒 دليل إصلاح مشكلة RLS (Row Level Security)
+🚨 المشكلة
+عند تفعيل RLS في Supabase:
+
+❌ Google Drive لا يعمل
+❌ قراءة البيانات من الجداول لا تعمل
+❌ Backend يعطي أخطاء "permission denied"
+
+
+🎯 الحل الكامل
+الخطوة 1️⃣: التحقق من Environment Variables
+تأكد أن Backend يستخدم SERVICE_ROLE_KEY وليس ANON_KEY:
+env# ✅ صحيح - في Render Environment Variables
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+# ❌ خطأ - لا تستخدم هذا في Backend
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+كيف تحصل على SERVICE_ROLE_KEY:
+
+اذهب إلى Supabase Dashboard
+Settings → API
+انسخ service_role key (ليس anon!)
+
+
+الخطوة 2️⃣: تطبيق SQL Policies
+
+افتح Supabase Dashboard
+اذهب إلى SQL Editor
+انسخ محتوى ملف supabase_rls_policies.sql
+الصقه في SQL Editor
+اضغط Run
+
+أو استخدم الأمر:
+bashpsql $DATABASE_URL -f supabase_rls_policies.sql
+
+الخطوة 3️⃣: التحقق من الكود
+تأكد أن server/repositories/supabase-repository.ts يستخدم:
+typescript// ✅ صحيح
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+// ❌ خطأ - لا تستخدم fallback إلى ANON_KEY
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY!;
+
+الخطوة 4️⃣: إعادة Deploy
+بعد التعديلات:
+bashgit add .
+git commit -m "Fix RLS configuration"
+git push origin main
+سيتم إعادة Deploy تلقائياً على Render.
+
+🔍 فهم الـ Policies
+Policy للمستخدمين (Frontend):
+sqlCREATE POLICY "Users can read own projects"
+ON projects FOR SELECT
+USING (auth.uid()::text = user_id);
+
+يسمح للمستخدم بقراءة مشاريعه فقط
+يستخدم auth.uid() من JWT token
+
+Policy للـ Service Role (Backend):
+sqlCREATE POLICY "Service role has full access"
+ON projects FOR ALL
+USING (auth.role() = 'service_role');
+
+يسمح للـ Backend بالوصول الكامل
+يتحقق من أن الـ role هو service_role
+
+
+🧪 اختبار RLS
+Test 1: من Backend
+bash# في Render Logs، يجب أن ترى:
+✅ Successfully fetched projects
+✅ Google Drive token stored
+Test 2: من Frontend
+javascript// في Browser Console
+supabase.from('projects').select('*')
+// يجب أن يرجع مشاريع المستخدم فقط
+Test 3: محاولة الوصول غير المصرح
+javascript// محاولة قراءة مشاريع مستخدم آخر
+supabase.from('projects').select('*').eq('user_id', 'other-user-id')
+// يجب أن يرجع [] (فارغ)
+
+🔧 حل المشاكل الشائعة
+❌ المشكلة: "new row violates row-level security policy"
+السبب: Backend يستخدم ANON_KEY بدلاً من SERVICE_ROLE_KEY
+الحل:
+bash# في Render Environment Variables
+SUPABASE_SERVICE_ROLE_KEY=your_actual_service_role_key
+ثم أعد Deploy.
+
+❌ المشكلة: "permission denied for table projects"
+السبب: لم يتم تطبيق Policies بشكل صحيح
+الحل:
+
+تأكد من تشغيل supabase_rls_policies.sql
+تحقق من Policies في Supabase:
+
+اذهب إلى Authentication → Policies
+تأكد من وجود Policy "Service role has full access"
+
+
+
+
+❌ المشكلة: Google Drive لا يحفظ الـ tokens
+السبب: جدول drive_connections محمي بـ RLS
+الحل:
+تأكد من وجود هذه Policy:
+sqlCREATE POLICY "Service role has full access to drive_connections"
+ON drive_connections FOR ALL
+USING (auth.role() = 'service_role');
+
+📋 Checklist النهائي
+
+ ✅ تم الحصول على SUPABASE_SERVICE_ROLE_KEY
+ ✅ تم إضافته في Render Environment Variables
+ ✅ تم تطبيق supabase_rls_policies.sql
+ ✅ تم التحقق من الكود يستخدم SERVICE_ROLE_KEY
+ ✅ تم إعادة Deploy على Render
+ ✅ Backend يعمل بدون أخطاء RLS
+ ✅ Google Drive يحفظ tokens بنجاح
+ ✅ Frontend يقرأ البيانات بشكل صحيح
+
+
+🎯 الفرق بين ANON_KEY و SERVICE_ROLE_KEY
+المفتاحالاستخدامالصلاحياتRLSANON_KEYFrontendمحدودة حسب Policies✅ يخضع لـ RLSSERVICE_ROLE_KEYBackendكاملة (admin)❌ يتجاوز RLS
+⚠️ تحذير أمني:
+
+لا تضع SERVICE_ROLE_KEY في Frontend أبداً!
+استخدمه فقط في Backend
+أضفه كـ Environment Variable مخفية
+
+
+📊 النتيجة المتوقعة
+بعد تطبيق الحل:
+
+✅ Backend له وصول كامل (عبر service_role)
+✅ Google Drive يعمل بشكل طبيعي
+✅ Frontend يقرأ بيانات المستخدم فقط
+✅ حماية كاملة من الوصول غير المصرح
+✅ RLS مفعّل ويعمل بشكل صحيح

@@ -1,0 +1,31 @@
+Terms of Service (شروط الخدمة)
+1. Introduction (مقدمة)
+Welcome to [اسم تطبيقك - منظم المعلم]. By using our service, you agree to these terms. Please read them carefully. مرحباً بكم في [منظم المعلم]. باستخدامك لخدمتنا، فإنك توافق على هذه الشروط. يرجى قراءتها بعناية.
+
+2. Google Drive Integration (التكامل مع جوجل درايف)
+Our app acts as an interface to help you organize your files on Google Drive. We do not own your files, and we do not have access to them except for the specific actions you perform (uploading, creating folders, or deleting to trash). يعمل تطبيقنا كواجهة لمساعدتك في تنظيم ملفاتك على Google Drive. نحن لا نملك ملفاتك، ولا نملك حق الوصول إليها إلا من خلال الإجراءات المحددة التي تقوم بها (الرفع، إنشاء المجلدات، أو الحذف إلى سلة المهملات).
+
+3. Data Retention & Deletion (الاحتفاظ بالبيانات وحذفها)
+Deleted files are moved to the Google Drive Trash and are subject to Google's 30-day deletion policy.
+
+Our system stores metadata (file names, folder IDs) to provide the service. If you delete your account, this metadata will be removed.
+
+الملفات المحذوفة تُنقل إلى سلة مهملات Google Drive وتخضع لسياسة الحذف الخاصة بجوجل (30 يوماً).
+
+يقوم نظامنا بتخزين البيانات الوصفية (أسماء الملفات، معرفات المجلدات) لتقديم الخدمة. عند حذف حسابك، سيتم إزالة هذه البيانات.
+
+4. User Responsibilities (مسؤوليات المستخدم)
+You are responsible for the content you upload. You must not use the service for any illegal activities or to store malicious software. أنت مسؤول عن المحتوى الذي تقوم برفعه. يجب عدم استخدام الخدمة في أي أنشطة غير قانونية أو لتخزين برامج ضارة.
+
+5. Limitation of Liability (إخلاء المسؤولية)
+We are not responsible for any data loss occurring on Google's servers or due to user error (e.g., permanent deletion of files). نحن غير مسؤولين عن أي فقدان للبيانات يحدث على خوادم جوجل أو بسبب خطأ المستخدم (مثل الحذف النهائي للملفات).
+
+Privacy Policy (سياسة الخصوصية) - ملخص سريع مطلوب أيضاً
+What data do we collect? (ما هي البيانات التي نجمعها؟)
+Profile Info: Name, email, and avatar from your Google Account.
+
+Drive Metadata: We only "see" the files and folders created through our app to display them to you. We do not read the content of your private documents.
+
+بيانات البروفايل: الاسم، البريد الإلكتروني، وصورة الحساب من جوجل.
+
+بيانات درايف: نحن "نرى" فقط الملفات والمجلدات التي تم إنشاؤها عبر تطبيقنا لنعرضها لك. نحن لا نقوم بقراءة محتوى مستنداتك الخاصة.

@@ -1,0 +1,65 @@
+قاعدة البيانات في Supabase تم إنشاؤها بالفعل، وهذه هي الجداول الموجودة (Postgres):
+
+TABLES (Public Schema):
+1) profiles
+- Purpose: user profile (linked 1:1 with auth.users)
+- PK: id (UUID) references auth.users(id) ON DELETE CASCADE
+- Columns: id, full_name, email (unique), avatar_url, created_at, updated_at
+
+2) drive_connections
+- Purpose: store Google Drive connection for each user (tokens/scopes)
+- PK: id (UUID)
+- FK: user_id -> auth.users(id) ON DELETE CASCADE
+- Columns: id, user_id, provider, provider_user_id, refresh_token_encrypted, scopes, last_synced_at, created_at, updated_at
+- Constraints: UNIQUE(user_id, provider), UNIQUE(provider, provider_user_id)
+
+3) projects
+- Purpose: main container/portfolio for teacher files (e.g. "Portfolio 2026")
+- PK: id (UUID)
+- FK: user_id -> auth.users(id) ON DELETE CASCADE
+- Columns: id, user_id, title, root_drive_id, status, created_at, updated_at
+- Status: 'active' or 'archived'
+
+4) folders
+- Purpose: hierarchical folder tree inside each project
+- PK: id (UUID)
+- FK: project_id -> projects(id) ON DELETE CASCADE
+- Self FK: parent_id -> folders(id) ON DELETE CASCADE (nullable)
+- Columns: id, project_id, parent_id, drive_folder_id (unique), folder_name, sort_order, created_at, updated_at
+- Constraints: UNIQUE(project_id, parent_id, folder_name), UNIQUE(drive_folder_id)
+
+5) files_metadata
+- Purpose: cache Google Drive files metadata for fast viewer loading
+- PK: id (UUID)
+- FK: project_id -> projects(id) ON DELETE CASCADE
+- FK: folder_id -> folders(id) ON DELETE CASCADE
+- Columns: id, project_id, folder_id, drive_file_id (unique), file_name, mime_type, size_bytes, checksum, web_view_link, is_deleted, deleted_at, created_at, updated_at
+
+6) share_links
+- Purpose: sharing settings and QR links for each project
+- PK: id (UUID)
+- FK: project_id -> projects(id) ON DELETE CASCADE
+- Columns: id, project_id, slug (unique), access_type, pin_hash, is_enabled, expires_at, created_at, updated_at
+- access_type: 'public' | 'pin' | 'google_only'
+
+7) audit_logs
+- Purpose: audit trail ("who did what and when")
+- PK: id (BIGINT identity)
+- FK: user_id -> auth.users(id) ON DELETE SET NULL
+- FK: project_id -> projects(id) ON DELETE SET NULL
+- Columns: id, user_id, project_id, action, payload (jsonb), ip (inet), user_agent, created_at
+
+RELATIONSHIPS SUMMARY:
+- auth.users (1) -> (1) profiles
+- auth.users (1) -> (N) drive_connections
+- auth.users (1) -> (N) projects
+- projects (1) -> (N) folders
+- folders (1) -> (N) files_metadata
+- projects (1) -> (N) files_metadata
+- projects (1) -> (N) share_links
+- audit_logs optionally references users/projects but keeps records even after deletions
+
+Now, please:
+1) Create TypeScript types/interfaces for all tables.
+2) Add a DB layer (repository) for CRUD operations on: projects, folders, files_metadata, share_links.
+3) Ensure every query respects RLS (use auth user context) and never expose refresh_token_encrypted to the client.

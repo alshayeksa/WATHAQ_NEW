@@ -1,0 +1,14 @@
+{
+  "name": "wathag",
+  "main": "server/worker.ts",
+  "compatibility_date": "2026-02-05",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "NODE_ENV": "production",
+    "SUPABASE_URL": "REPLACE_WITH_SUPABASE_URL",
+    "SUPABASE_ANON_KEY": "REPLACE_WITH_SUPABASE_ANON_KEY",
+    "GOOGLE_CLIENT_ID": "REPLACE_WITH_GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET": "REPLACE_WITH_GOOGLE_CLIENT_SECRET",
+    "SUPABASE_SERVICE_ROLE_KEY": "REPLACE_WITH_SUPABASE_SERVICE_ROLE_KEY"
+  }
+}

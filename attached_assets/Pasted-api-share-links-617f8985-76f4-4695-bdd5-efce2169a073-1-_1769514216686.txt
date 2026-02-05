@@ -1,0 +1,49 @@
+api/share-links/617f8985-76f4-4695-bdd5-efce2169a073:1  Failed to load resource: the server responded with a status of 404 ()Understand this error
+index-gU87FD0z.js:50 Uncaught (in promise) Error: 404: {"error":"Share link not found"}
+    at Dx (index-gU87FD0z.js:50:43668)
+    at async en (index-gU87FD0z.js:50:43892)
+    at async Object.mutationFn (index-gU87FD0z.js:109:8832)Understand this error
+api/share-links/617f8985-76f4-4695-bdd5-efce2169a073:1  Failed to load resource: the server responded with a status of 404 ()Understand this error
+index-gU87FD0z.js:50 Uncaught (in promise) Error: 404: {"error":"Share link not found"}
+    at Dx (index-gU87FD0z.js:50:43668)
+    at async en (index-gU87FD0z.js:50:43892)
+    at async Object.mutationFn (index-gU87FD0z.js:109:8832)Understand this error
+index-gU87FD0z.js:109  GET https://teacher-drive-manager.replit.app/api/projects/2fee47fc-d4a0-4011-9d33-f778d01d4535/share 401 (Unauthorized)
+G @ index-gU87FD0z.js:109
+onClick @ index-gU87FD0z.js:102
+hk @ index-gU87FD0z.js:5
+mk @ index-gU87FD0z.js:5
+gk @ index-gU87FD0z.js:5
+Bg @ index-gU87FD0z.js:5
+zg @ index-gU87FD0z.js:5
+(anonymous) @ index-gU87FD0z.js:5
+Sf @ index-gU87FD0z.js:8
+Gm @ index-gU87FD0z.js:5
+bd @ index-gU87FD0z.js:5
+sd @ index-gU87FD0z.js:5
+Ak @ index-gU87FD0z.js:5Understand this error
+index-gU87FD0z.js:50  PATCH https://teacher-drive-manager.replit.app/api/share-links/617f8985-76f4-4695-bdd5-efce2169a073 404 (Not Found)
+en @ index-gU87FD0z.js:50
+await in en
+mutationFn @ index-gU87FD0z.js:109
+fn @ index-gU87FD0z.js:8
+S @ index-gU87FD0z.js:8
+start @ index-gU87FD0z.js:8
+execute @ index-gU87FD0z.js:8
+await in execute
+mutate @ index-gU87FD0z.js:8
+onToggleLink @ index-gU87FD0z.js:109
+N @ index-gU87FD0z.js:109
+(anonymous) @ index-gU87FD0z.js:50
+(anonymous) @ index-gU87FD0z.js:50
+Yl @ index-gU87FD0z.js:8
+Ri @ index-gU87FD0z.js:8
+GC @ index-gU87FD0z.js:8
+js @ index-gU87FD0z.js:8
+fy @ index-gU87FD0z.js:8
+Vn @ index-gU87FD0z.js:6
+(anonymous) @ index-gU87FD0z.js:8Understand this error
+index-gU87FD0z.js:50 Uncaught (in promise) Error: 404: {"error":"Share link not found"}
+    at Dx (index-gU87FD0z.js:50:43668)
+    at async en (index-gU87FD0z.js:50:43892)
+    at async Object.mutationFn (index-gU87FD0z.js:109:8832)

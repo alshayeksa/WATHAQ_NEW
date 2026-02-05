@@ -1,0 +1,85 @@
+2026-01-28T12:41:46.287Z	Initializing build environment...
+2026-01-28T12:41:48.296Z	Success: Finished initializing build environment
+2026-01-28T12:41:48.722Z	Cloning repository...
+2026-01-28T12:41:49.915Z	Restoring from dependencies cache
+2026-01-28T12:41:49.917Z	Restoring from build output cache
+2026-01-28T12:41:49.921Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2026-01-28T12:41:50.014Z	Installing project dependencies: npm clean-install --progress=false
+2026-01-28T12:42:01.031Z	
+2026-01-28T12:42:01.031Z	added 548 packages, and audited 549 packages in 10s
+2026-01-28T12:42:01.031Z	
+2026-01-28T12:42:01.031Z	79 packages are looking for funding
+2026-01-28T12:42:01.031Z	  run `npm fund` for details
+2026-01-28T12:42:01.033Z	
+2026-01-28T12:42:01.034Z	1 moderate severity vulnerability
+2026-01-28T12:42:01.034Z	
+2026-01-28T12:42:01.034Z	To address all issues, run:
+2026-01-28T12:42:01.034Z	  npm audit fix
+2026-01-28T12:42:01.034Z	
+2026-01-28T12:42:01.034Z	Run `npm audit` for details.
+2026-01-28T12:42:01.292Z	Executing user build command: npm run build
+2026-01-28T12:42:01.553Z	
+2026-01-28T12:42:01.554Z	> rest-express@1.0.0 build
+2026-01-28T12:42:01.554Z	> tsx script/build.ts
+2026-01-28T12:42:01.554Z	
+2026-01-28T12:42:02.437Z	building client...
+2026-01-28T12:42:02.526Z	vite v7.3.0 building client environment for production...
+2026-01-28T12:42:03.413Z	transforming...
+2026-01-28T12:42:04.892Z	
+2026-01-28T12:42:04.892Z	A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+2026-01-28T12:42:09.039Z	✓ 1849 modules transformed.
+2026-01-28T12:42:09.920Z	rendering chunks...
+2026-01-28T12:42:09.936Z	computing gzip size...
+2026-01-28T12:42:11.562Z	../dist/public/index.html                      2.72 kB │ gzip:   1.09 kB
+2026-01-28T12:42:11.563Z	../dist/public/assets/moe_logo-CVi-7ym_.png  290.13 kB
+2026-01-28T12:42:11.563Z	../dist/public/assets/logo-i40N7oQv.png      354.56 kB
+2026-01-28T12:42:11.563Z	../dist/public/assets/index-Cg27ihR4.css      75.85 kB │ gzip:  12.53 kB
+2026-01-28T12:42:11.563Z	../dist/public/assets/index-BM3ALFfk.js      779.99 kB │ gzip: 230.46 kB
+2026-01-28T12:42:11.563Z	
+2026-01-28T12:42:11.564Z	(!) Some chunks are larger than 500 kB after minification. Consider:
+2026-01-28T12:42:11.564Z	- Using dynamic import() to code-split the application
+2026-01-28T12:42:11.564Z	- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2026-01-28T12:42:11.564Z	- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+2026-01-28T12:42:11.565Z	✓ built in 8.70s
+2026-01-28T12:42:11.565Z	building server...
+2026-01-28T12:42:11.779Z	
+2026-01-28T12:42:11.780Z	  dist/index.cjs  1.1mb ⚠️
+2026-01-28T12:42:11.780Z	
+2026-01-28T12:42:11.780Z	⚡ Done in 197ms
+2026-01-28T12:42:11.911Z	Success: Build command completed
+2026-01-28T12:42:12.109Z	Executing user deploy command: npx wrangler deploy
+2026-01-28T12:42:13.436Z	npm warn exec The following package was not found and will be installed: wrangler@4.61.0
+2026-01-28T12:42:21.524Z	
+2026-01-28T12:42:21.524Z	 ⛅️ wrangler 4.61.0
+2026-01-28T12:42:21.526Z	───────────────────
+2026-01-28T12:42:23.131Z	🌀 Building list of assets...
+2026-01-28T12:42:23.132Z	✨ Read 8 files from the assets directory /opt/buildhome/repo/dist/public
+2026-01-28T12:42:23.149Z	🌀 Starting asset upload...
+2026-01-28T12:42:25.562Z	🌀 Found 6 new or modified static assets to upload. Proceeding with upload...
+2026-01-28T12:42:25.562Z	+ /favicon.png
+2026-01-28T12:42:25.563Z	+ /assets/moe_logo-CVi-7ym_.png
+2026-01-28T12:42:25.563Z	+ /index.html
+2026-01-28T12:42:25.563Z	+ /assets/logo-i40N7oQv.png
+2026-01-28T12:42:25.563Z	+ /assets/index-Cg27ihR4.css
+2026-01-28T12:42:25.563Z	+ /assets/index-BM3ALFfk.js
+2026-01-28T12:42:27.250Z	Uploaded 2 of 6 assets
+2026-01-28T12:42:27.909Z	Uploaded 4 of 6 assets
+2026-01-28T12:42:29.896Z	Uploaded 6 of 6 assets
+2026-01-28T12:42:29.896Z	✨ Success! Uploaded 6 files (4.33 sec)
+2026-01-28T12:42:29.896Z	
+2026-01-28T12:42:29.897Z	Total Upload: 0.33 KiB / gzip: 0.24 KiB
+2026-01-28T12:42:30.343Z	
+2026-01-28T12:42:30.344Z	Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+2026-01-28T12:42:30.346Z	
+2026-01-28T12:42:30.409Z	✘ [ERROR] A request to the Cloudflare API (/accounts/df48308e0348751b70b2ff4aae28a833/workers/scripts/waththaq/versions) failed.
+2026-01-28T12:42:30.409Z	
+2026-01-28T12:42:30.409Z	  Invalid _redirects configuration:
+2026-01-28T12:42:30.409Z	  Line 1: Infinite loop detected in this rule. This would cause a redirect to strip `.html` or `/index` and end up triggering this rule again. [code: 10021]
+2026-01-28T12:42:30.409Z	  To learn more about this error, visit: https://developers.cloudflare.com/workers/observability/errors/#validation-errors-10021
+2026-01-28T12:42:30.409Z	
+2026-01-28T12:42:30.409Z	  
+2026-01-28T12:42:30.409Z	  If you think this is a bug, please open an issue at: https://github.com/cloudflare/workers-sdk/issues/new/choose
+2026-01-28T12:42:30.409Z	
+2026-01-28T12:42:30.409Z	
+2026-01-28T12:42:30.434Z	🪵  Logs were written to "/opt/buildhome/.config/.wrangler/logs/wrangler-2026-01-28_12-42-21_031.log"
+2026-01-28T12:42:30.500Z	Failed: error occurred while running deploy command

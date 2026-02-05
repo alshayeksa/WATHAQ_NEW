@@ -1,0 +1,69 @@
+index-gU87FD0z.js:109 
+ POST https://teacher-drive-manager.replit.app/api/projects/db6f427e-e25f-4a65-9c26-953344364e0d/files 500 (Internal Server Error)
+mutationFn	@	index-gU87FD0z.js:109
+await in mutationFn		
+fn	@	index-gU87FD0z.js:8
+S	@	index-gU87FD0z.js:8
+start	@	index-gU87FD0z.js:8
+execute	@	index-gU87FD0z.js:8
+await in execute		
+mutate	@	index-gU87FD0z.js:8
+onUploadFiles	@	index-gU87FD0z.js:109
+q	@	index-gU87FD0z.js:109
+hk	@	index-gU87FD0z.js:5
+mk	@	index-gU87FD0z.js:5
+gk	@	index-gU87FD0z.js:5
+Bg	@	index-gU87FD0z.js:5
+zg	@	index-gU87FD0z.js:5
+(anonymous)	@	index-gU87FD0z.js:5
+Sf	@	index-gU87FD0z.js:8
+Gm	@	index-gU87FD0z.js:5
+bd	@	index-gU87FD0z.js:5
+sd	@	index-gU87FD0z.js:5
+Ak	@	index-gU87FD0z.js:5
+
+index-gU87FD0z.js:109 Upload error: 500 {"error":"Failed to upload files"}
+mutationFn	@	index-gU87FD0z.js:109
+await in mutationFn		
+fn	@	index-gU87FD0z.js:8
+S	@	index-gU87FD0z.js:8
+start	@	index-gU87FD0z.js:8
+execute	@	index-gU87FD0z.js:8
+await in execute		
+mutate	@	index-gU87FD0z.js:8
+onUploadFiles	@	index-gU87FD0z.js:109
+q	@	index-gU87FD0z.js:109
+hk	@	index-gU87FD0z.js:5
+mk	@	index-gU87FD0z.js:5
+gk	@	index-gU87FD0z.js:5
+Bg	@	index-gU87FD0z.js:5
+zg	@	index-gU87FD0z.js:5
+(anonymous)	@	index-gU87FD0z.js:5
+Sf	@	index-gU87FD0z.js:8
+Gm	@	index-gU87FD0z.js:5
+bd	@	index-gU87FD0z.js:5
+sd	@	index-gU87FD0z.js:5
+Ak	@	index-gU87FD0z.js:5
+index-gU87FD0z.js:109 Uncaught (in promise) Error: فشل في الرفع
+    at Object.mutationFn (index-gU87FD0z.js:109:21841)
+mutationFn	@	index-gU87FD0z.js:109
+await in mutationFn		
+fn	@	index-gU87FD0z.js:8
+S	@	index-gU87FD0z.js:8
+start	@	index-gU87FD0z.js:8
+execute	@	index-gU87FD0z.js:8
+await in execute		
+mutate	@	index-gU87FD0z.js:8
+onUploadFiles	@	index-gU87FD0z.js:109
+q	@	index-gU87FD0z.js:109
+hk	@	index-gU87FD0z.js:5
+mk	@	index-gU87FD0z.js:5
+gk	@	index-gU87FD0z.js:5
+Bg	@	index-gU87FD0z.js:5
+zg	@	index-gU87FD0z.js:5
+(anonymous)	@	index-gU87FD0z.js:5
+Sf	@	index-gU87FD0z.js:8
+Gm	@	index-gU87FD0z.js:5
+bd	@	index-gU87FD0z.js:5
+sd	@	index-gU87FD0z.js:5
+Ak	@	index-gU87FD0z.js:5

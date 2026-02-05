@@ -1,0 +1,45 @@
+Existing profile check: Found
+Menu
+Upserting profile with data: {
+  id: 'a1ef0d4a-c012-4045-98b6-31c4ee6da165',
+  email: 'shayee@gmail.com'
+}
+Supabase upsert profile with service role: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+Profile sync complete: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+3:59:11 PM [express] POST /api/auth/sync-profile 200 in 290ms :: {"id":"a1ef0d4a-c012-4045-98b6-31c4ee6da165","full_name":"","email":"shayee@gmail.com","avatar_url":"","region":"","city":"","school_name":"","specialization":"","job_title":"","created_at":"2026-01-28T08:37:22.033339+00:00","updated_at":"2026-01-30T15:59:11.6391+00:00"}
+Sync profile request for user: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+Profile sync data: {
+  email: 'shayee@gmail.com',
+  full_name: 'Shaye Alshaye',
+  avatar_url: 'https://lh3.googleusercontent.com/a/ACg8ocK6o_JXsuW6tiOPZQ5y84-Ob5J0CjqIr6SU2n3i5iwXDfu6d_lt=s96-c'
+}
+Existing profile check: Found
+Upserting profile with data: {
+  id: 'a1ef0d4a-c012-4045-98b6-31c4ee6da165',
+  email: 'shayee@gmail.com',
+  full_name: 'Shaye Alshaye',
+  avatar_url: 'https://lh3.googleusercontent.com/a/ACg8ocK6o_JXsuW6tiOPZQ5y84-Ob5J0CjqIr6SU2n3i5iwXDfu6d_lt=s96-c'
+}
+Supabase upsert profile with service role: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+Store token request received for user: a1ef0d4a-c012-4045-98b6-31c4ee6da165 token exists: true
+Caller user from token: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+Storing token for user: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+Profile sync complete: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+3:59:11 PM [express] POST /api/auth/sync-profile 200 in 262ms :: {"id":"a1ef0d4a-c012-4045-98b6-31c4ee6da165","full_name":"Shaye Alshaye","email":"shayee@gmail.com","avatar_url":"https://lh3.googleusercontent.com/a/ACg8ocK6o_JXsuW6tiOPZQ5y84-Ob5J0CjqIr6SU2n3i5iwXDfu6d_lt=s96-c","region":"","city":"","school_name":"","specialization":"","job_title":"","created_at":"2026-01-28T08:37:22.033339+00:00","updated_at":"2026-01-30T15:59:11.814805+00:00"}
+Failed to store tokens: {
+  code: '42501',
+  details: null,
+  hint: null,
+  message: 'new row violates row-level security policy for table "drive_connections"'
+}
+Store token error: {
+  code: '42501',
+  details: null,
+  hint: null,
+  message: 'new row violates row-level security policy for table "drive_connections"'
+}
+3:59:12 PM [express] POST /api/auth/store-token 500 in 201ms :: {"error":"Failed to store token"}
+No drive connection found for user: a1ef0d4a-c012-4045-98b6-31c4ee6da165 Cannot coerce the result to a single JSON object
+No token found for user: a1ef0d4a-c012-4045-98b6-31c4ee6da165
+3:59:12 PM [express] GET /api/auth/drive-status 304 in 54ms :: {"connected":false,"reason":"no_token","message":"لم يتم ربط حسابك بجوجل درايف. الرجاء إعادة تسجيل الدخول لربط الحساب."}
+3:59:12 PM [express] GET /api/projects 304 in 77ms :: []
